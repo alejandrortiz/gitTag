@@ -10,7 +10,6 @@ from typing import Optional
 
 from git import Repo
 
-
 LOG_MESSAGE_STRUCT: str = '[*] {}\n'
 
 
@@ -44,7 +43,7 @@ def main() -> None:
         console_error('No version found')
         exit_wrong()
 
-    version_formatted: str = "v{}".format(version)
+    version_formatted: str = format_version(version)
 
     if len(repo.tags) == 0:
         latest_version = ''
@@ -66,6 +65,13 @@ def main() -> None:
                     '\t\tMessage: {}'.format(version_formatted, commit.hexsha, commit.author, commit.message))
 
     sys.exit(0)
+
+
+def format_version(version: str) -> str:
+    if not version.startswith('v'):
+        return "v{}".format(version)
+
+    return version
 
 
 def exit_wrong():
