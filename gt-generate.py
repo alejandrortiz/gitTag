@@ -37,6 +37,9 @@ def main() -> None:
     commit = repo.commit(repo.head)
     version: str = project_version()
 
+    if version is None and input_version is not None:
+        version = input_version
+
     if version is None:
         console_error('No version found')
         exit_wrong()
@@ -117,5 +120,10 @@ def console_success(message: str) -> None:
 
 if __name__ == "__main__":
     BASE_DIR = os.getcwd()
+
+    input_version: Optional[str]
+
+    if len(sys.argv) == 2 and len(sys.argv[1].split('.')) == 3:
+        input_version = sys.argv[1]
 
     main()
